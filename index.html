@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minnal Docs</title>
+  <meta name="description" content="Documentation for Minnal — the AI-native marketing platform.">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="https://minnal.io" class="nav-logo">⚡ Minnal</a>
+      <div class="nav-links">
+        <a href="https://minnal.io">Home</a>
+        <a href="https://blog.minnal.io">Blog</a>
+        <a href="https://app.minnal.io" class="btn-nav">Open app</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Getting started</div>
+        <a href="#overview" class="sidebar-link active">Overview</a>
+        <a href="#setup" class="sidebar-link">Setup</a>
+        <a href="#mcp" class="sidebar-link">Claude MCP</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Features</div>
+        <a href="#ai-visibility" class="sidebar-link">AI Visibility</a>
+        <a href="#content-signals" class="sidebar-link">Content Signals</a>
+        <a href="#geo-playbook" class="sidebar-link">GEO Playbook</a>
+        <a href="#scheduling" class="sidebar-link">Scheduling</a>
+        <a href="#integrations" class="sidebar-link">Integrations</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Reference</div>
+        <a href="help.md" class="sidebar-link">Full user guide ↗</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      <h1>Minnal Documentation</h1>
+      <p class="lead">Minnal is an AI-native marketing platform. You plan, create, and publish content across social platforms by talking to Claude.</p>
+
+      <section id="overview">
+        <h2>Overview</h2>
+        <p>Minnal connects to Claude via the Model Context Protocol (MCP), giving Claude the tools to schedule posts, check AI visibility, analyze competitor content, and publish across LinkedIn, Facebook, Instagram, and Reddit — all through natural conversation.</p>
+      </section>
+
+      <section id="setup">
+        <h2>Setup</h2>
+        <ol>
+          <li>Create an account at <a href="https://app.minnal.io">app.minnal.io</a></li>
+          <li>Create a project for your brand</li>
+          <li>Connect your social platforms in Integrations</li>
+          <li>Copy your MCP config from Settings and add it to Claude Desktop</li>
+        </ol>
+      </section>
+
+      <section id="mcp">
+        <h2>Claude MCP Setup</h2>
+        <p>Add this to your <code>claude_desktop_config.json</code>:</p>
+        <pre><code>{
+  "mcpServers": {
+    "minnal": {
+      "command": "npx",
+      "args": ["minnal-mcp@latest"],
+      "env": {
+        "MINNAL_API_KEY": "your-api-key-here"
+      }
+    }
+  }
+}</code></pre>
+        <p>Find your API key in the app under Account → API key.</p>
+      </section>
+
+      <section id="ai-visibility">
+        <h2>AI Visibility</h2>
+        <p>Queries Claude, ChatGPT, Perplexity, Gemini, and Grok with your brand keywords. Scores each response 0–100 based on how prominently your brand appears. Run checks from the GEO tab inside your project.</p>
+      </section>
+
+      <section id="content-signals">
+        <h2>Content Signals</h2>
+        <p>Analyzes competitor URLs you add in project settings and identifies topics they cover that you don't. Click Analyze to run a fresh analysis powered by AI.</p>
+      </section>
+
+      <section id="geo-playbook">
+        <h2>GEO Playbook</h2>
+        <p>Prioritized actions to improve how AI models find and cite your brand — comparison posts, Reddit threads, FAQ pages, Wikipedia presence, and citation outreach. Each tactic includes a ready-to-use Claude prompt.</p>
+      </section>
+
+      <section id="scheduling">
+        <h2>Scheduling</h2>
+        <p>Ask Claude to schedule or publish posts. Example: <em>"Schedule a LinkedIn post about our new feature for next Tuesday at 9am."</em> Claude will draft the content, check GEO context, and queue it automatically.</p>
+      </section>
+
+      <section id="integrations">
+        <h2>Integrations</h2>
+        <ul>
+          <li><strong>LinkedIn</strong> — OAuth, posts to your profile</li>
+          <li><strong>Facebook</strong> — OAuth, posts to your Pages</li>
+          <li><strong>Instagram</strong> — via Facebook Business, image required</li>
+          <li><strong>Reddit</strong> — OAuth, requires subreddit per post</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>⚡ Minnal Docs</span>
+        <div class="footer-links">
+          <a href="https://minnal.io">Home</a>
+          <a href="https://blog.minnal.io">Blog</a>
+          <a href="mailto:hello@minnal.io">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
