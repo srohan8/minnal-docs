@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ page.title }} — Minnal Docs</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="stylesheet" href="{{ site.baseurl }}/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <nav class="nav">
+    <div class="nav-inner">
+      <a href="https://minnal.io" class="nav-logo">
+        <img src="{{ site.baseurl }}/minnal_logo.svg" alt="Minnal" height="26">
+      </a>
+      <div class="nav-links">
+        <a href="https://minnal.io">Home</a>
+        <a href="https://blog.minnal.io">Blog</a>
+        <a href="https://app.minnal.io" class="btn-nav">Open app</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="sidebar-section">
+        <div class="sidebar-label">Getting started</div>
+        <a href="{{ site.baseurl }}/#overview" class="sidebar-link">Overview</a>
+        <a href="{{ site.baseurl }}/#setup" class="sidebar-link">Setup</a>
+        <a href="{{ site.baseurl }}/#mcp" class="sidebar-link">Claude MCP</a>
+        <a href="{{ site.baseurl }}/#claude-project" class="sidebar-link">Claude Project</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Features</div>
+        <a href="{{ site.baseurl }}/#ai-visibility" class="sidebar-link">AI Visibility</a>
+        <a href="{{ site.baseurl }}/#content-signals" class="sidebar-link">Content Signals</a>
+        <a href="{{ site.baseurl }}/#geo-playbook" class="sidebar-link">GEO Playbook</a>
+        <a href="{{ site.baseurl }}/#scheduling" class="sidebar-link">Scheduling</a>
+        <a href="{{ site.baseurl }}/#integrations" class="sidebar-link">Integrations</a>
+        <a href="{{ site.baseurl }}/#github-pages" class="sidebar-link">Blog (GitHub Pages)</a>
+        <a href="{{ site.baseurl }}/#knowledge-sources" class="sidebar-link">Knowledge Sources</a>
+      </div>
+      <div class="sidebar-section">
+        <div class="sidebar-label">Reference</div>
+        <a href="{{ site.baseurl }}/help" class="sidebar-link">Full user guide ↗</a>
+      </div>
+    </aside>
+
+    <main class="content">
+      {{ content }}
+    </main>
+  </div>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-inner">
+        <span>
+          <img src="{{ site.baseurl }}/minnal_logo.svg" alt="Minnal" height="18" style="vertical-align:middle;margin-right:6px">
+          MarketingHub — Built for the Future of Search
+        </span>
+        <div class="footer-links">
+          <a href="https://minnal.io">Home</a>
+          <a href="https://blog.minnal.io">Blog</a>
+          <a href="mailto:hello@minnal.io">Contact</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

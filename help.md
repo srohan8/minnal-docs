@@ -1,3 +1,9 @@
+---
+layout: default
+title: User Guide
+description: Full user guide for Minnal MarketingHub — setup, workflows, example prompts, and troubleshooting.
+---
+
 # Minnal MarketingHub — User Guide
 
 > **MarketingHub — Built for the Future of Search**

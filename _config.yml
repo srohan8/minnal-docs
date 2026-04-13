@@ -1,0 +1,13 @@
+title: Minnal Docs
+description: Documentation for Minnal MarketingHub — the AI-native marketing platform built for the future of search.
+url: https://srohan8.github.io
+baseurl: "/minnal-docs"
+author: Minnal
+
+markdown: kramdown
+highlighter: rouge
+
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
