@@ -14,18 +14,23 @@
 5. [Step 3 — Set Up a Claude Project ⭐ Most Important](#step-3--set-up-a-claude-project)
 6. [Step 4 — Create Your First Brand Project](#step-4--create-your-first-brand-project)
 7. [Step 5 — Connect Your Social Platforms](#step-5--connect-your-social-platforms)
-8. [Step 6 — Schedule Your First Post](#step-6--schedule-your-first-post)
-9. [Using Claude Effectively — Dos & Don'ts](#using-claude-effectively)
-10. [Example Prompts That Work](#example-prompts-that-work)
-11. [Example Workflows](#example-workflows)
-12. [Pro Tips](#pro-tips)
-13. [Troubleshooting & FAQ](#troubleshooting--faq)
+8. [Step 6 — Connect Your Blog (GitHub Pages)](#step-6--connect-your-blog-github-pages)
+9. [Step 7 — Schedule Your First Post](#step-7--schedule-your-first-post)
+10. [AI Visibility](#ai-visibility)
+11. [Content Signals](#content-signals)
+12. [GEO Playbook](#geo-playbook)
+13. [Knowledge Sources](#knowledge-sources)
+14. [Using Claude Effectively — Dos & Don'ts](#using-claude-effectively)
+15. [Example Prompts That Work](#example-prompts-that-work)
+16. [Example Workflows](#example-workflows)
+17. [Pro Tips](#pro-tips)
+18. [Troubleshooting & FAQ](#troubleshooting--faq)
 
 ---
 
 ## What is Minnal?
 
-Minnal connects Claude Desktop to your social media accounts via the **Model Context Protocol (MCP)**. Instead of logging into a dashboard to write and schedule posts, you simply tell Claude what you want — and it handles the rest.
+Minnal connects Claude Desktop to your social media accounts and blog via the **Model Context Protocol (MCP)**. Instead of logging into a dashboard to write and schedule posts, you simply tell Claude what you want — and it handles the rest.
 
 **How it works:**
 
@@ -36,15 +41,18 @@ You (in Claude Desktop)
        ↓  MCP tools
   Minnal Server
        ↓  API calls
-Reddit · LinkedIn · Facebook · Instagram
+Reddit · LinkedIn · Facebook · Instagram · GitHub Pages Blog
 ```
 
 **What you can do:**
 - Ask Claude to plan a week of social content for your brand
 - Schedule posts across multiple platforms in one conversation
+- Publish blog posts directly to your GitHub Pages site
+- Check how AI models mention your brand (AI Visibility)
+- Identify content gaps vs your competitors (Content Signals)
+- Get a prioritized GEO Playbook with ready-to-use Claude prompts
 - Review and approve posts before they go live
 - Check engagement analytics without leaving Claude
-- Connect your Notion workspace as a knowledge source for Claude
 
 **What Minnal is NOT:**
 - A traditional social media dashboard with a post editor
@@ -90,7 +98,7 @@ This is what connects Claude's brain to your Minnal account.
 
 ### Get your config from Minnal
 
-1. Log into your Minnal dashboard
+1. Log into your Minnal dashboard at [app.minnal.io](https://app.minnal.io)
 2. Go to **Settings**
 3. Find the **MCP Configuration** card
 4. Click **Copy Configuration** — you'll get a JSON block like this:
@@ -141,7 +149,7 @@ A **Claude Project** gives Claude persistent memory about your brand. Without it
 
 1. In Claude Desktop, click **Projects** in the sidebar
 2. Click **New Project**
-3. Name it after your brand (e.g. "Flow Marketing", "Lungiman Content")
+3. Name it after your brand (e.g. "Flow Marketing", "Acme Content")
 4. Click **Add project instructions** (or "Set instructions")
 
 ### What to put in your project instructions
@@ -183,15 +191,16 @@ Reddit subreddits: [e.g. r/ADHD, r/productivity, r/entrepreneur]
 
 ## Step 4 — Create Your First Brand Project
 
-A **Minnal project** (separate from a Claude Project) stores your social platform credentials, audience settings, and post history.
+A **Minnal project** (separate from a Claude Project) stores your social platform credentials, audience settings, competitor URLs, and post history.
 
 1. Log into Minnal dashboard
 2. Click **Projects** → **New Project**
 3. Fill in:
    - **Name** — your brand name
-   - **Description** — what the brand does (Claude uses this)
+   - **Description** — what the brand does (Claude uses this for content context)
    - **Target audiences** — describe who you're writing for (be specific)
    - **Platforms** — select which platforms you'll post to
+   - **Competitor URLs** — add competitor websites for Content Signals analysis
 4. Click **Save**
 
 > **Important:** The description and audience fields are passed to Claude when it generates content. Treat them like mini brand briefs — the more detail, the better the output.
@@ -209,23 +218,54 @@ Go to **Integrations** in the Minnal dashboard. Connect each platform you want t
 3. Select the **Facebook Page** you want to post from
 4. Instagram is automatically connected if your Instagram Business account is linked to that Facebook Page
 
-> You need a **Facebook Page** (not a personal profile) and an **Instagram Business account** (not a personal account).
+> You need a **Facebook Page** (not a personal profile) and an **Instagram Business account** (not a personal account). Instagram posts require an image.
 
 ### LinkedIn
 
 1. Click **Connect LinkedIn**
 2. Authorize with your LinkedIn account
-3. Select your personal profile or a company page
+3. Posts go to your personal LinkedIn profile
+
+> Company page support is on the roadmap — currently posts to personal profiles only.
 
 ### Reddit
 
 1. Click **Connect Reddit**
 2. Authorize with your Reddit account
-3. Make sure your account has enough karma to post in your target subreddits (most require at least 5–10 karma)
+3. Every Reddit post requires a **subreddit** — specify it when asking Claude to schedule (e.g. `r/productivity`)
+4. Make sure your account has enough karma to post in your target subreddits (most require at least 5–10 karma)
 
 ---
 
-## Step 6 — Schedule Your First Post
+## Step 6 — Connect Your Blog (GitHub Pages)
+
+Minnal can publish blog posts directly to your GitHub Pages site as markdown files. Supports Jekyll, Hugo, Astro, and custom frontmatter.
+
+### Setup
+
+1. Create a [GitHub Personal Access Token](https://github.com/settings/tokens) with **repo** scope
+2. In your Minnal project, go to **Settings → Integrations → GitHub Pages**
+3. Enter:
+   - **GitHub PAT** — your personal access token
+   - **Repo** — in `owner/repo` format (e.g. `yourname/yourname.github.io`)
+   - **Branch** — default is `main`
+   - **Posts folder** — default is `_posts` (Jekyll standard)
+   - **Site type** — Jekyll, Hugo, Astro, or Custom
+4. Click **Connect**
+
+### Publishing via Claude
+
+Once connected, ask Claude:
+
+```
+Write a blog post about [topic] and publish it to our GitHub Pages blog.
+```
+
+Claude will draft the post, add the correct frontmatter for your site type, and commit it directly to your repo. GitHub Pages picks it up automatically.
+
+---
+
+## Step 7 — Schedule Your First Post
 
 Once everything is connected, open Claude Desktop (make sure you're inside your Claude Project) and try:
 
@@ -240,7 +280,92 @@ Claude will:
 2. Call the `schedule_post` tool to queue it in Minnal
 3. Confirm the scheduled time and let you review or edit
 
-Check the **Scheduled** tab in your Minnal dashboard to see and manage the queue.
+Check the **Scheduled** tab in your Minnal dashboard to see and manage the queue. You can edit the content, change the time, or cancel any post before it publishes.
+
+### Reddit posts
+
+Reddit requires a subreddit for every post:
+
+```
+Schedule a Reddit post for r/entrepreneur tomorrow at 10am about [topic].
+```
+
+---
+
+## AI Visibility
+
+AI Visibility tracks how prominently your brand is mentioned when the 5 major AI models are asked about your category.
+
+**Models checked:** Claude, ChatGPT, Perplexity, Gemini, Grok
+
+**How it works:**
+- Each model is queried with your brand keywords and audience-based questions
+- Responses are scored 0–100 based on whether your brand and keywords appear
+- Results show per-model scores so you can see where you're visible and where you're not
+
+**How to run a check:**
+1. Go to the **GEO** tab in your project
+2. Click **Run AI Visibility Check**
+3. Results appear as score cards — one per model per keyword
+
+**Understanding the scores:**
+- **0–30** — not mentioned or very weak presence
+- **31–60** — mentioned but not prominently
+- **61–100** — strong, prominent mention
+
+> Retrieval-based models (Perplexity) respond quickly to new content. Training-based models (ChatGPT, Claude, Gemini, Grok) reflect longer-term brand authority.
+
+---
+
+## Content Signals
+
+Content Signals analyzes competitor websites you add to your project and identifies topics they cover that you don't — so you can close the gap.
+
+**How to use it:**
+1. Add competitor URLs in your project settings (Settings → Competitors)
+2. Go to the **GEO** tab → **Content Signals**
+3. Click **Analyze** to run a fresh analysis
+4. Review the topic gaps and suggested post ideas
+
+**What you get:**
+- A list of topics your competitors cover that you don't
+- Suggested post angles for each gap
+- Ready-to-use prompts to give Claude
+
+> Analysis is powered by AI and may take 30–60 seconds. Run it monthly or after major competitor updates.
+
+---
+
+## GEO Playbook
+
+The GEO Playbook gives you a prioritized list of actions to improve how AI models find and cite your brand — tailored to your visibility scores.
+
+**Tactics included:**
+- **Comparison posts** — "Your Brand vs Competitor" content gets cited heavily by Perplexity
+- **Reddit threads** — authentic community discussions get indexed by retrieval models
+- **FAQ pages** — comprehensive structured answers get picked up by all models
+- **Wikipedia presence** — strongest training-data signal for ChatGPT, Claude, and Gemini
+- **Citation outreach** — press mentions and authoritative blog citations influence future training
+
+Each tactic includes a **ready-to-use Claude prompt** in the right column. Copy it and paste it into Claude to fast-track the content creation.
+
+---
+
+## Knowledge Sources
+
+Knowledge Sources let you connect external content — like a Notion workspace — so Claude can reference your existing documents when writing content.
+
+**Currently supported:** Notion
+
+**How to connect:**
+1. Go to **Settings → Knowledge Sources** in the dashboard
+2. Add your Notion workspace ID and access token
+3. Claude can now reference your Notion pages when generating content
+
+**In Claude:**
+```
+List my connected knowledge sources.
+```
 
 ---
 
@@ -249,7 +374,7 @@ Check the **Scheduled** tab in your Minnal dashboard to see and manage the queue
 ### ✅ Do This
 
 **Be specific about platform, brand, timing, and tone**
-> "Schedule 3 LinkedIn posts for Flow next week targeting ADHD founders. Keep the tone personal and a bit vulnerable — share real struggles, not polished advice."
+> "Schedule 3 LinkedIn posts for [Brand] next week targeting ADHD founders. Keep the tone personal and a bit vulnerable — share real struggles, not polished advice."
 
 **Ask for a weekly plan first, then approve post by post**
 > "Plan this week's content for [Brand]. Give me a list of post ideas across LinkedIn and Reddit before scheduling anything."
@@ -261,10 +386,10 @@ Check the **Scheduled** tab in your Minnal dashboard to see and manage the queue
 > "The story-format post last Tuesday got 3× more engagement than usual. Write more content in that style."
 
 **Review before it goes live**
-> Use the Scheduled tab to read every post before it publishes. Claude gets things wrong sometimes.
+> Use the Scheduled tab to read every post before it publishes.
 
-**Use Claude to analyse performance**
-> "How did last month's posts perform? What should I focus on this month?"
+**Use Claude to analyse GEO context before writing**
+> "Get the GEO context for [Brand] before you write anything — use the visibility scores to pick the right tactic."
 
 ---
 
@@ -279,10 +404,10 @@ Check the **Scheduled** tab in your Minnal dashboard to see and manage the queue
 Every conversation without project context produces generic, off-brand content. It takes 10 minutes to set up and makes everything dramatically better.
 
 **Don't schedule without connecting a platform first**
-If LinkedIn isn't connected in Integrations, scheduled LinkedIn posts will fail silently. Connect platforms before asking Claude to schedule.
+If LinkedIn isn't connected in Integrations, scheduled LinkedIn posts will fail silently.
 
-**Don't forget to set audiences in your Minnal project**
-Claude reads the audience description from your project when generating content. Vague audiences ("everyone") produce vague posts.
+**Don't forget to add competitor URLs**
+Content Signals needs competitor URLs in your project settings to find gaps.
 
 **Don't use Minnal without Claude Desktop configured**
 The `npx minnal-mcp@latest` MCP bridge must be running. If Claude doesn't show Minnal tools, re-check your `claude_desktop_config.json` and restart Claude Desktop.
@@ -307,6 +432,20 @@ Schedule these 3 posts for [Brand]:
 Write each one based on our brand voice.
 ```
 
+### GEO-informed post
+```
+Get the GEO context for [Brand], then write a post that targets our weakest AI model.
+Use the content gap suggestions to pick the topic.
+Schedule it for tomorrow at 9am on LinkedIn.
+```
+
+### Blog post to GitHub Pages
+```
+Write a blog post about [topic] for [Brand].
+Make it SEO-friendly, around 600 words, with clear headings.
+Publish it to our GitHub Pages blog.
+```
+
 ### Performance review
 ```
 Pull the analytics for [Brand] for the last 30 days.
@@ -314,7 +453,7 @@ Which posts got the most engagement? What patterns do you see?
 What should we focus on next month based on this data?
 ```
 
-### Reactive post (based on something that happened)
+### Reactive post
 ```
 We just shipped [feature/milestone]. Write a LinkedIn post announcing it.
 Tone: excited but grounded, not hype. Include what problem it solves and who it's for.
@@ -336,11 +475,22 @@ Schedule for tomorrow morning.
 ### Weekly Content Workflow (30 minutes)
 
 1. **Monday morning:** Open Claude Desktop (in your brand's Project)
-2. **Plan:** *"Suggest this week's content for [Brand] — 5 posts across LinkedIn and Reddit. Just ideas, don't schedule yet."*
-3. **Review:** Go through each idea, ask Claude to adjust any that feel off
-4. **Approve & schedule:** *"Great, schedule posts 1, 3, and 5. Skip 2 and 4."*
-5. **Confirm:** Check the Scheduled tab in Minnal to review the queue
-6. **Friday:** *"How did this week's posts perform so far? Anything to learn for next week?"*
+2. **GEO check:** *"Get the GEO context for [Brand] — what's our weakest model and top content gap?"*
+3. **Plan:** *"Suggest this week's content for [Brand] — 5 posts across LinkedIn and Reddit targeting the gaps. Just ideas, don't schedule yet."*
+4. **Review:** Go through each idea, ask Claude to adjust any that feel off
+5. **Approve & schedule:** *"Great, schedule posts 1, 3, and 5. Skip 2 and 4."*
+6. **Confirm:** Check the Scheduled tab in Minnal to review the queue
+7. **Friday:** *"How did this week's posts perform so far? Anything to learn for next week?"*
+
+---
+
+### Blog Publishing Workflow
+
+1. *"Get the GEO context for [Brand] — what topic should we write about to improve AI visibility?"*
+2. *"Write a 700-word blog post on that topic. Include a clear intro, 3–4 sections with headers, and a CTA to try [Brand]."*
+3. Review the draft
+4. *"Publish it to our GitHub Pages blog"*
+5. Share the post URL on LinkedIn and Reddit to amplify reach
 
 ---
 
@@ -348,38 +498,34 @@ Schedule for tomorrow morning.
 
 1. *"Pull analytics for [Brand] for the past month"*
 2. *"What content themes got the most engagement?"*
-3. *"Based on this, what should our content focus be next month?"*
-4. Update your Claude Project instructions if the data reveals something new about what resonates
-
----
-
-### Responding to a Trend or News
-
-1. *"There's a trending conversation on LinkedIn about [topic]. Write a post for [Brand] that adds our angle to this — don't just echo the trend, say something specific."*
-2. Review the draft
-3. *"Schedule this for today at 4pm"*
+3. *"Run a Content Signals analysis and tell me what competitor topics we're missing"*
+4. *"Run an AI visibility check across all models and tell me where we're weakest"*
+5. Update your Claude Project instructions if the data reveals something new about what resonates
 
 ---
 
 ## Pro Tips
 
 **Start with one project, one platform**
-Get the full loop working (Claude → schedule → publish → analytics) for one brand on one platform before expanding. Complexity kills momentum.
+Get the full loop working (Claude → schedule → publish → analytics) for one brand on one platform before expanding.
 
 **Keep your Claude Project instructions updated**
-Every time something changes about your brand — new product, new audience, new tone — update the Claude Project. 10 minutes of maintenance pays off in every subsequent post.
+Every time something changes about your brand — new product, new audience, new tone — update the Claude Project instructions.
 
 **Batch your scheduling session**
-Instead of scheduling one post at a time, do a 30-minute session once or twice a week and schedule everything at once. Claude remembers the context across the whole conversation.
+Do a 30-minute session once or twice a week and schedule everything at once. Claude remembers the context across the whole conversation.
 
 **Use the queue as your editorial calendar**
 The Scheduled tab is your editorial calendar. Before approving a week's worth of posts, read them in sequence — check for repetition, tonal consistency, and timing.
 
-**Tell Claude about your competitors and what NOT to sound like**
+**Tell Claude about your competitors**
 Add to your Claude Project instructions: *"We don't want to sound like [Competitor]. Their tone is [X]. We differentiate by being [Y]."*
 
-**LLM Visibility is a real channel**
-Minnal includes AI visibility monitoring (how often your brand appears in Claude, ChatGPT, and Perplexity responses). Check this regularly — optimising for AI search is the next SEO.
+**Use GEO context before every content session**
+Ask Claude to `get_geo_context` before writing anything. It will automatically pick the right tactic (comparison post, Reddit thread, FAQ) based on your current visibility scores.
+
+**Publish blog posts to boost training-model visibility**
+Blog posts committed to GitHub Pages get indexed over time. Authoritative, well-structured posts on your category topics are one of the strongest signals for ChatGPT, Claude, and Gemini.
 
 ---
 
@@ -441,30 +587,55 @@ Minnal includes AI visibility monitoring (how often your brand appears in Claude
 
 ---
 
-### LinkedIn posts are publishing to my personal profile, not my company page
+### GitHub Pages blog publish failed
 
-**Cause:** Company page permissions require special LinkedIn API access (r_organization_admin scope) which is pending approval.
+**Cause:** PAT expired, wrong repo name, or insufficient token permissions.
 
-**Status:** This is a known limitation. Currently Minnal can only post to personal LinkedIn profiles. Company page support is on the roadmap.
+**Fix:**
+1. Go to [github.com/settings/tokens](https://github.com/settings/tokens) and check your token is still valid and has **repo** scope
+2. In Minnal Settings → Integrations → GitHub, verify the repo is in `owner/repo` format
+3. Disconnect and reconnect GitHub in the Integrations tab with a fresh token
 
 ---
 
-### The MCP config file doesn't exist yet
+### Reddit post failed — invalid subreddit or karma too low
 
-**Fix:** Create it yourself. Open a text editor, paste in the config JSON from your Minnal Settings, and save the file at the correct path:
+**Cause:** The subreddit doesn't exist, is private, or your account doesn't have enough karma to post there.
 
-- macOS: `~/Library/Application Support/Claude/claude_desktop_config.json`
-- Windows: `%APPDATA%\Claude\claude_desktop_config.json`
+**Fix:**
+1. Verify the subreddit name is correct (no typos, correct capitalisation)
+2. Check the subreddit rules — some require minimum karma or account age
+3. Try a more open subreddit first to build karma
 
-Make sure the file is saved as `.json`, not `.json.txt`.
+---
+
+### Content Signals shows empty results
+
+**Cause:** No competitor URLs added, or the analysis provider hit a quota limit.
+
+**Fix:**
+1. Go to project Settings → add at least one competitor URL
+2. Click **Analyze** again — the system tries multiple AI providers automatically
+3. If it still fails, wait a few minutes and try again
+
+---
+
+### AI Visibility scores seem low across all models
+
+This is normal when you're starting out. The GEO Playbook gives you a prioritized action list. Focus on:
+1. Publishing a comparison post ("Your Brand vs [Competitor]")
+2. Seeding a Reddit thread in a relevant community
+3. Writing a comprehensive FAQ page for your category
+
+Run another visibility check after 1–2 weeks of content publishing to track progress.
 
 ---
 
 ## Need More Help?
 
-- **Dashboard:** Your Minnal dashboard has a Help & Tips section with quick dos and don'ts
-- **Email:** Contact us at [your support email]
-- **Updates:** Follow the changelog for new features and platform additions
+- **Dashboard:** Your Minnal dashboard has context-sensitive tips throughout
+- **Email:** [hello@minnal.io](mailto:hello@minnal.io)
+- **Blog:** [blog.minnal.io](https://blog.minnal.io) — guides on GEO, AI visibility, and content strategy
 
 ---
 
