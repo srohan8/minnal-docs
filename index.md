@@ -21,7 +21,7 @@ Minnal connects to Claude via the Model Context Protocol (MCP), giving Claude th
 
 ## Claude MCP {#mcp}
 
-Add this to your `claude_desktop_config.json`:
+Requires **Node.js v18+** installed on your machine ([nodejs.org](https://nodejs.org)). Then add this to your `claude_desktop_config.json`:
 
 ```json
 {
