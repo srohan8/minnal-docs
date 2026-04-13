@@ -21,7 +21,13 @@ Minnal connects to Claude via the Model Context Protocol (MCP), giving Claude th
 
 ## Claude MCP {#mcp}
 
-Requires **Node.js v18+** installed on your machine ([nodejs.org](https://nodejs.org)). Then add this to your `claude_desktop_config.json`:
+**Step 1 — Install Node.js** (if you haven't already)
+
+Go to [nodejs.org](https://nodejs.org), download the **LTS** version, and run the installer. You won't need to do anything with it — Minnal just needs it in the background.
+
+**Step 2 — Get your config from Minnal**
+
+Log into [app.minnal.io](https://app.minnal.io) → **Settings** → copy the MCP config block. It looks like this:
 
 ```json
 {
@@ -37,7 +43,20 @@ Requires **Node.js v18+** installed on your machine ([nodejs.org](https://nodejs
 }
 ```
 
-Find your API key in the app under **Account → API key**. Fully restart Claude Desktop after saving.
+**Step 3 — Paste it into Claude Desktop**
+
+Open Claude Desktop, then go to **Settings → Developer → Edit Config**. This opens the config file directly. Paste the block in and save.
+
+If you can't find it, the file is here:
+
+- **Mac:** `~/Library/Application Support/Claude/claude_desktop_config.json`
+- **Windows:** Open File Explorer, type `%APPDATA%\Claude` in the address bar, open `claude_desktop_config.json`
+
+> If the file already has other MCP servers in it, paste just the `"minnal": { ... }` part inside the existing `"mcpServers"` block — don't replace the whole file.
+
+**Step 4 — Restart Claude Desktop**
+
+Fully quit and reopen Claude Desktop (don't just close the window). Open a new conversation — you should see a 🔧 tools icon. That means Minnal is connected.
 
 ## Claude Project {#claude-project}
 
