@@ -31,6 +31,7 @@ description: Full user guide for Minnal MarketingHub — setup, workflows, examp
 16. [Example Workflows](#example-workflows)
 17. [Pro Tips](#pro-tips)
 18. [Troubleshooting & FAQ](#troubleshooting--faq)
+19. [REST API & API Keys](#rest-api--api-keys)
 
 ---
 
@@ -634,6 +635,143 @@ This is normal when you're starting out. The GEO Playbook gives you a prioritize
 3. Writing a comprehensive FAQ page for your category
 
 Run another visibility check after 1–2 weeks of content publishing to track progress.
+
+---
+
+## REST API & API Keys
+
+Minnal exposes a small public REST API so you can integrate it with your own tools — Flask apps, Zapier-style automations, internal dashboards, anything that can send an HTTP request.
+
+The API mirrors the most common MCP tools (list brands, schedule posts, manage credentials), so anything you currently do through Claude Desktop can also be done programmatically.
+
+### Base URL
+
+- **Production:** `https://app.minnal.io`
+- **Local development:** `http://localhost:3000`
+
+All API endpoints below are rooted at `<base>/api/...`.
+
+### Authentication
+
+Every request must send a Bearer token:
+
+```
+Authorization: Bearer <your-api-key>
+```
+
+There are two kinds of keys, both work the same way at the protocol level:
+
+1. **Account key** — auto-generated when you registered. Visible in the dashboard and via the MCP `view_api_key` tool. One per account, full account scope, can't be revoked individually. Fine for the MCP client; not recommended for sharing with third-party tools.
+2. **Per-integration keys** *(recommended)* — created on demand via `POST /api/keys`. Named, hashed at rest, individually revocable, and can be set to expire. Use one per integration so you can rotate or revoke without breaking everything else.
+
+If a request is unauthenticated or the key is invalid/revoked/expired, the server returns **401**.
+
+### Key management endpoints
+
+#### Create a key — `POST /api/keys`
+
+Creates a new named key. **The raw key is returned exactly once** — store it immediately, you cannot retrieve it again.
+
+```bash
+curl -X POST https://app.minnal.io/api/keys \
+  -H "Authorization: Bearer <existing-key>" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "travel-shorts-flask-app", "expires_in_days": 90}'
+```
+
+Response:
+
+```json
+{
+  "ok": true,
+  "id": "uuid",
+  "name": "travel-shorts-flask-app",
+  "key": "sk_…",
+  "key_prefix": "sk_a1b2c3d4",
+  "expires_at": "2026-07-30T00:00:00.000Z",
+  "created_at": "2026-05-01T..."
+}
+```
+
+`expires_in_days` is optional (omit for no expiry, max 3650). The key is hashed in the database; the only thing displayed in subsequent listings is the prefix.
+
+#### List keys — `GET /api/keys`
+
+```bash
+curl https://app.minnal.io/api/keys -H "Authorization: Bearer <key>"
+```
+
+Returns metadata only (id, name, prefix, last_used_at, expires_at, revoked_at, created_at). Never returns raw key values.
+
+#### Revoke a key — `DELETE /api/keys/:id`
+
+```bash
+curl -X DELETE https://app.minnal.io/api/keys/<key-id> \
+  -H "Authorization: Bearer <key>"
+```
+
+Soft-deletes the key (sets `revoked_at`). Subsequent requests using that key get 401. Idempotent.
+
+### Data endpoints
+
+#### List brands — `GET /api/brands`
+
+```bash
+curl https://app.minnal.io/api/brands -H "Authorization: Bearer <key>"
+```
+
+Returns:
+
+```json
+[
+  { "id": "uuid", "name": "SLW Travel" },
+  { "id": "uuid", "name": "Acme Co" }
+]
+```
+
+#### Schedule a post — `POST /api/posts/schedule`
+
+```bash
+curl -X POST https://app.minnal.io/api/posts/schedule \
+  -H "Authorization: Bearer <key>" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "brand_id": "uuid",
+    "platform": "instagram",
+    "content": "Sunset over the Sahara…",
+    "scheduled_for": "2026-05-15T14:00:00Z",
+    "image_url": "https://images.unsplash.com/photo-..."
+  }'
+```
+
+Body fields:
+
+| Field | Type | Required | Notes |
+|---|---|---|---|
+| `brand_id` | uuid | yes | Must belong to the authenticated user |
+| `platform` | enum | yes | `instagram` \| `linkedin` \| `facebook` \| `reddit` |
+| `content` | string | yes | Post body |
+| `scheduled_for` | ISO 8601 | yes | When to publish |
+| `image_url` | string | conditional | Required for `instagram`, optional for others |
+| `subreddit` | string | conditional | Required for `reddit` |
+| `page_id` | string | optional | Facebook Page ID (uses first connected page if omitted) |
+| `flair_id`, `flair_text` | string | optional | Reddit flair (use the dashboard or MCP `get_reddit_flairs`) |
+| `pillar` | string | optional | Content-pillar tag |
+
+Response on success: `{ "ok": true, "post_id": "uuid" }`. Errors return `{ "ok": false, "error": "reason" }` with status 400 (bad input), 404 (brand not found), or 500.
+
+The post is inserted into the same scheduled-posts queue used by the MCP `schedule_post` tool — the scheduler picks it up and publishes within ~1 minute of `scheduled_for`.
+
+### CORS
+
+The API allows requests from any origin, so browser-side and server-side callers both work without extra configuration.
+
+### Security notes
+
+- **One key per integration.** Don't reuse the same key across your Flask app, a Zapier automation, and a CI job — if one leaks you'd have to invalidate all three.
+- **Expire keys you give to short-lived projects** with `expires_in_days`.
+- **Revoke immediately** if a key is exposed (logs, screenshots, accidental commits). `DELETE /api/keys/:id` takes effect on the next request.
+- Keys created via `POST /api/keys` are stored hashed (SHA-256) — even if the database is exposed, the raw keys are not recoverable.
 
 ---
 
